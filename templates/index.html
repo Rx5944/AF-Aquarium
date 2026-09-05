@@ -4,6 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AF Aquarium.</title>
+  <link 
+  rel="icon" 
+  type="image/png" 
+  href="{{ url_for('static', filename='img/logo.jpeg') }}"
+  >
   <meta name="description" content="A calm, well-kept aquarium shop and experience centre — livestock, tanks, and expert care for freshwater and reef keepers.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +34,14 @@
 
   <header class="site-header">
     <div class="wrap">
-      <a href="#top" class="logo">AF Aquarium</a>
+      <a href="#top" class="logo logo-brand">
+        <img 
+          src="{{ url_for('static', filename='img/logo.jpeg') }}" 
+          alt="AF Aquarium Logo"
+          class="site-logo"
+        >
+        <span>AF Aquarium</span>
+      </a>
       <nav class="nav-links" aria-label="Primary">
         <a href="#top" class="active">Home</a>
         <a href="#care">Service</a>
