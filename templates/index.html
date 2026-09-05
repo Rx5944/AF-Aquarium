@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AF Aquarium.</title>
+  <meta name="description" content="A calm, well-kept aquarium shop and experience centre — livestock, tanks, and expert care for freshwater and reef keepers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="ocean-glow" aria-hidden="true"></div>
+
+  {% macro icon_whatsapp() -%}
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.66-1.22A9 9 0 1 0 12 3Z" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M8.6 8.4c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .55.4.2.5.6 1.5.65 1.6.05.1.1.25 0 .4-.1.15-.15.25-.3.4-.15.15-.3.3-.15.55.4.7.9 1.3 1.5 1.75.6.45 1 .55 1.2.65.2.1.35.1.5-.05.15-.15.6-.65.75-.9.15-.2.3-.2.5-.1.2.1 1.3.6 1.5.7.2.1.35.15.4.25.05.1.05.55-.15 1.1-.2.5-1.1 1-1.55 1.05-.4.05-.9.1-2.75-.6-2.3-.9-3.75-3.2-3.85-3.35-.1-.15-.85-1.15-.85-2.2s.55-1.55.75-1.75Z" fill="currentColor"/>
+  </svg>
+  {%- endmacro %}
+
+  {% macro icon_youtube() -%}
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="2" y="5.5" width="20" height="13" rx="4" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M10.3 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor"/>
+  </svg>
+  {%- endmacro %}
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="#top" class="logo">AF Aquarium</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#top" class="active">Home</a>
+        <a href="#care">Service</a>
+        <a href="#ponds">Ponds</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#clients">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#newsletter" class="btn btn-primary">Explore now</a>
+      <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-copy">
+          <h1>AF<br>Aquarium.</h1>
+          <p>We build and maintain aquariums that keep fish thriving and owners worry‑free — from a single desktop tank to a full reef system, fitted out and looked after by people who actually keep fish at home.Door Delivery Available</p>
+          <div class="hero-actions">
+            <a href="#newsletter" class="btn btn-primary">Explore now</a>
+            <a href="#gallery" class="btn btn-ghost">See our works</a>
+          </div>
+          <div class="stat-row">
+            {% for stat in stats %}
+            <div class="stat">
+              <strong>{{ stat.value }}</strong>
+              <span>{{ stat.label }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="hero-art">
+          <img src="{{ url_for('static', filename='img/bubbles.svg') }}" alt="" aria-hidden="true" class="hero-bubbles">
+          <img src="{{ url_for('static', filename='img/hero-fish.png') }}" alt="Illustrated betta fish with long flowing fins, our shop's signature species" class="hero-fish">
+        </div>
+      </div>
+    </section>
+
+    <!-- CREATURES -->
+    <section class="creatures" id="creatures">
+      <div class="wrap">
+        <div class="creature-visual">
+          <img src="{{ url_for('static', filename='img/reef-scene.jpeg') }}" alt="Illustration of a planted coral reef aquarium">
+          <!-- <img src="{{ url_for('static', filename='img/small-fish.svg') }}" alt="" aria-hidden="true"> -->
+        </div>
+        <div class="creatures-copy">
+          <h2>Explore All The Incredible Creatures</h2>
+          <ul class="feature-list">
+            <li>
+              <span class="feature-dot c-magenta"></span>
+              <div>
+                <h3>Hand‑picked, healthy livestock</h3>
+                <p>Every fish, coral, and invertebrate is quarantined and health‑checked before it ever reaches a display tank.</p>
+              </div>
+            </li>
+            <li>
+              <span class="feature-dot c-blue"></span>
+              <div>
+                <h3>Built for your space</h3>
+                <p>From nano tanks to statement reef walls, we design the footprint, filtration, and lighting around your room.</p>
+              </div>
+            </li>
+            <li>
+              <span class="feature-dot c-teal"></span>
+              <div>
+                <h3>Ongoing care, not just a sale</h3>
+                <p>Water testing, feeding schedules, and seasonal check‑ups keep every tank stable long after installation.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARE BAND -->
+    <section class="care" id="care">
+      <div class="wrap">
+        <div class="care-copy">
+          <h2>Your Fish Will Love You For This</h2>
+          <p>Consistent water chemistry, the right tankmates, and a feeding rhythm that matches each species — that's the difference between a tank you maintain and one you enjoy.</p>
+          <div class="care-stats">
+            {% for stat in care_stats %}
+            <div>
+              <strong>{{ stat.value }}</strong>
+              <span>{{ stat.label }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="care-visual">
+          <img src="{{ url_for('static', filename='img/care-scene.jpeg') }}" alt="Illustration of a densely planted freshwater aquarium">
+        </div>
+      </div>
+    </section>
+
+    <!-- POND & WATER FEATURE PORTFOLIO -->
+    <section class="ponds" id="ponds">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow-row"><span class="line"></span> Outdoor Builds <span class="line"></span></div>
+          <h2>Custom Ponds, Waterfalls &amp; Fountains</h2>
+        </div>
+        <div class="pond-grid">
+          {% for project in pond_projects %}
+          <div class="pond-card">
+            <div class="pond-media">
+              <img src="{{ url_for('static', filename='img/' ~ project.image) }}" alt="{{ project.alt }}">
+            </div>
+            <div class="pond-body">
+              <span class="pond-kicker">{{ project.kicker }}</span>
+              <h3>{{ project.title }}</h3>
+              <p>{{ project.description }}</p>
+              <div class="pond-specs">
+                {% for spec in project.specs %}
+                <span>{{ spec }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <p class="ponds-cta">Planning an outdoor build? <a href="#newsletter">Tell us about your space</a> and we'll scope it out.</p>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="gallery">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow-row"><span class="line"></span> Our Gallery <span class="line"></span></div>
+          <h2>A closer look at our works</h2>
+        </div>
+        <div class="gallery-grid">
+          {% for item in gallery %}
+          <div class="gallery-item">
+            <img src="{{ url_for('static', filename='img/gallery-' ~ item.slug ~ '.jpeg') }}" alt="{{ item.name }}">
+            <span class="tag">{{ item.name }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="gallery-more">
+          <a href="{{ url_for('gallery') }}" class="btn btn-ghost">View full gallery</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="clients">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow-row"><span class="line"></span> Our Happy Client <span class="line"></span></div>
+          <h2>What keepers say after setup</h2>
+        </div>
+        <div class="testi-grid">
+          {% for t in testimonials %}
+          <div class="testi-card">
+            <p class="testi-quote">“{{ t.quote }}”</p>
+            <div class="testi-person">
+              <span class="testi-avatar">{{ t.initials }}</span>
+              <div>
+                <strong>{{ t.name }}</strong>
+                <span>{{ t.role }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <div class="section-heading">
+          <div class="eyebrow-row"><span class="line"></span> Get In Touch <span class="line"></span></div>
+          <h2>Talk to us about your tank or build</h2>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="contact-label">Visit</span>
+              <p>{{ contact_address }}</p>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Call or email</span>
+              <p><a href="tel:{{ contact_phone }}">{{ contact_phone }}</a><br>
+                 <a href="mailto:{{ contact_email }}">{{ contact_email }}</a></p>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Hours</span>
+              <p>{{ contact_hours }}</p>
+            </div>
+            <div class="social-row">
+              <a class="icon-circle whatsapp" href="{{ whatsapp_link }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+                {{ icon_whatsapp() }}
+              </a>
+              <a class="icon-circle youtube" href="{{ youtube_url }}" target="_blank" rel="noopener" aria-label="Watch our build videos on YouTube">
+                {{ icon_youtube() }}
+              </a>
+            </div>
+          </div>
+
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="form-row">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-row">
+              <label for="c-email">Email</label>
+              <input type="email" id="c-email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-row">
+              <label for="phone">Phone <span class="optional">(optional)</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 123 456 7890">
+            </div>
+            <div class="form-row">
+              <label for="message">What are you looking to build?</label>
+              <textarea id="message" name="message" rows="4" placeholder="Tell us about your space, tank, or pond idea." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send message</button>
+            <p class="form-note" id="contact-note" hidden></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER 
+    <section class="newsletter" id="newsletter">
+      <div class="wrap">
+        <div>
+          <h2>Get Latest News</h2>
+          <p>Stocking updates, care guides, and first access to new arrivals — a couple of emails a month, nothing more.</p>
+          {% if message %}<p class="form-note">{{ message }}</p>{% endif %}
+        </div>
+        <form class="newsletter-form" id="newsletter-form" novalidate>
+          <label for="email" class="visually-hidden">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main> -->
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#top" class="logo">AF Aquarium</a>
+          <p></p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#creatures">Creatures</a></li>
+            <li><a href="#ponds">Ponds</a></li>
+            <li><a href="#care">Care</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#clients">Reviews</a></li>
+            
+            <li><a href="#top">Visit us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:{{ contact_email }}">{{ contact_email }}</a></li>
+            <li><a href="tel:{{ contact_phone }}">{{ contact_phone }}</a></li>
+          </ul>
+          <div class="social-row social-row-footer">
+            <a class="icon-circle whatsapp" href="{{ whatsapp_link }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+              {{ icon_whatsapp() }}
+            </a>
+            <a class="icon-circle youtube" href="{{ youtube_url }}" target="_blank" rel="noopener" aria-label="Watch our build videos on YouTube">
+              {{ icon_youtube() }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© {{ year }} Aquarium. All rights reserved.</span>
+        
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="float-actions">
+    <a class="float-btn youtube" href="{{ youtube_url }}" target="_blank" rel="noopener" aria-label="Watch our build videos on YouTube">
+      {{ icon_youtube() }}
+      <span class="float-label">Watch on YouTube</span>
+    </a>
+    <a class="float-btn whatsapp" href="{{ whatsapp_link }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+      {{ icon_whatsapp() }}
+      <span class="float-label">Chat on WhatsApp</span>
+    </a>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

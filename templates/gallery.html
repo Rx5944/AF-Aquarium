@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Full Gallery | AF Aquarium</title>
+  <meta name="description" content="Browse the full AF Aquarium gallery of aquariums, fish, reefs, ponds, and water features.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="ocean-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="{{ url_for('index') }}" class="logo">AF Aquarium</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('index') }}#ponds">Ponds</a>
+        <a href="{{ url_for('gallery') }}" class="active">Gallery</a>
+        <a href="{{ url_for('index') }}#contact">Contact</a>
+      </nav>
+      <a href="{{ url_for('index') }}#contact" class="btn btn-primary">Start a project</a>
+    </div>
+  </header>
+
+  <main class="gallery-page">
+    <div class="wrap">
+      <div class="section-heading">
+        <div class="eyebrow-row"><span class="line"></span>Aquarium Moments <span class="line"></span></div>
+        <h1>Our full gallery</h1>
+        <p class="gallery-intro">A closer look at the fish, customise and imported tanks, fountains, ponds, and water features we care for and build.</p>
+      </div>
+
+      <div class="gallery-grid gallery-grid-full">
+        {% for item in gallery %}
+        <div class="gallery-item">
+          <img src="{{ url_for('static', filename='img/' ~ item.image) }}" alt="{{ item.name }}" loading="lazy">
+          <span class="tag">{{ item.name }}</span>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="gallery-page-back">
+        <a href="{{ url_for('index') }}#gallery" class="btn btn-ghost">Back to home</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-bottom">
+        <span>&copy; {{ year }} AF Aquarium. All rights reserved.</span>
+        <span><a href="mailto:{{ contact_email }}">{{ contact_email }}</a></span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

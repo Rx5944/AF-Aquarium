@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin — Aquarium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    .admin-wrap { max-width: 1180px; margin: 0 auto; padding: 52px 32px 100px; }
+    .admin-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+    .admin-wrap h1 { font-family: var(--font-display); font-weight: 600; font-size: 2.3rem; margin-bottom: 6px; }
+    .admin-wrap .sub { color: var(--ink-muted); }
+    .admin-actions, .table-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .admin-link, .action-button { border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; color: var(--ink-muted); background: transparent; font: inherit; font-size: .82rem; }
+    .admin-link:hover, .action-button:hover { border-color: var(--teal); color: var(--ink); }
+    .admin-link.primary { color: var(--teal); border-color: rgba(43, 230, 192, .35); }
+    .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 42px; }
+    .summary-card { border: 1px solid var(--line); border-radius: var(--radius-m); background: rgba(255, 255, 255, .025); padding: 18px 20px; }
+    .summary-card strong { display: block; font-family: var(--font-display); font-size: 1.8rem; }
+    .summary-card span { color: var(--ink-faint); font-size: .78rem; }
+    .admin-section { margin-bottom: 48px; }
+    .section-title { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .admin-section h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; }
+    .count { color: var(--teal); font-weight: 600; }
+    .filter-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .filter-bar input, .filter-bar select { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--bg-elev); color: var(--ink); font: inherit; font-size: .86rem; }
+    .filter-bar input { min-width: 240px; flex: 1; }
+    .filter-bar button { border: 0; border-radius: 10px; padding: 11px 16px; background: var(--teal); color: var(--bg); font: inherit; font-weight: 700; cursor: pointer; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-m); }
+    table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    th, td { text-align: left; padding: 13px 15px; font-size: 0.86rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--ink-faint); font-weight: 600; background: var(--bg-elev); white-space: nowrap; }
+    td { color: var(--ink-muted); }
+    tr:last-child td { border-bottom: none; }
+    .message-cell { min-width: 260px; max-width: 420px; white-space: pre-wrap; }
+    .message-meta { color: var(--ink-faint); font-size: .76rem; margin-top: 4px; }
+    .status-form select { border: 1px solid var(--line); border-radius: 8px; padding: 7px 8px; background: var(--bg-elev); color: var(--ink); font: inherit; font-size: .78rem; }
+    .delete-button { color: #ff8eaa; border-color: rgba(255, 142, 170, .25); }
+    .empty { color: var(--ink-faint); font-size: 0.9rem; padding: 16px 0; }
+    @media (max-width: 720px) {
+      .admin-wrap { padding: 32px 18px 70px; }
+      .admin-top, .section-title { align-items: flex-start; flex-direction: column; }
+      .summary { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar input { min-width: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ocean-glow" aria-hidden="true"></div>
+  <div class="admin-wrap">
+    <div class="admin-top">
+      <div>
+        <h1>Admin inbox</h1>
+        <p class="sub">Review enquiries and manage your newsletter audience.</p>
+      </div>
+      <div class="admin-actions">
+        <a class="admin-link" href="{{ url_for('index') }}">View website</a>
+        <a class="admin-link primary" href="{{ url_for('export_records', record_type='messages') }}">Export messages</a>
+        <a class="admin-link" href="{{ url_for('export_records', record_type='subscribers') }}">Export subscribers</a>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="summary-card"><strong>{{ messages|length }}</strong><span>Visible enquiries</span></div>
+      <div class="summary-card"><strong>{{ message_counts.get('new', 0) }}</strong><span>New enquiries</span></div>
+      <div class="summary-card"><strong>{{ message_counts.get('in_progress', 0) }}</strong><span>In progress</span></div>
+      <div class="summary-card"><strong>{{ subscribers|length }}</strong><span>Subscribers</span></div>
+    </div>
+
+    <div class="admin-section">
+      <div class="section-title">
+        <h2>Contact enquiries <span class="count">({{ messages|length }})</span></h2>
+      </div>
+      <form class="filter-bar" method="get" action="{{ url_for('admin') }}">
+        <input type="search" name="q" value="{{ query }}" placeholder="Search name, email, phone, or message" aria-label="Search enquiries">
+        <select name="status" aria-label="Filter by status">
+          <option value="all" {% if status == 'all' %}selected{% endif %}>All statuses</option>
+          <option value="new" {% if status == 'new' %}selected{% endif %}>New</option>
+          <option value="in_progress" {% if status == 'in_progress' %}selected{% endif %}>In progress</option>
+          <option value="closed" {% if status == 'closed' %}selected{% endif %}>Closed</option>
+        </select>
+        <button type="submit">Filter</button>
+        {% if query or status != 'all' %}<a class="admin-link" href="{{ url_for('admin') }}">Clear</a>{% endif %}
+      </form>
+      {% if messages %}
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>From</th><th>Message</th><th>Received</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          {% for m in messages %}
+          <tr>
+            <td><strong>{{ m[1] }}</strong><div class="message-meta"><a href="mailto:{{ m[2] }}">{{ m[2] }}</a>{% if m[3] %}<br>{{ m[3] }}{% endif %}</div></td>
+            <td class="message-cell">{{ m[4] }}</td>
+            <td>{{ m[5][:16].replace('T', ' ') }}</td>
+            <td>
+              <form class="status-form" method="post" action="{{ url_for('update_message_status', message_id=m[0]) }}">
+                <select name="status" onchange="this.form.submit()" aria-label="Status for {{ m[1] }}">
+                  <option value="new" {% if m[6] == 'new' %}selected{% endif %}>New</option>
+                  <option value="in_progress" {% if m[6] == 'in_progress' %}selected{% endif %}>In progress</option>
+                  <option value="closed" {% if m[6] == 'closed' %}selected{% endif %}>Closed</option>
+                </select>
+              </form>
+            </td>
+            <td>
+              <form method="post" action="{{ url_for('delete_message', message_id=m[0]) }}" onsubmit="return confirm('Delete this enquiry?')">
+                <button class="action-button delete-button" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      {% else %}
+      <p class="empty">No enquiries match this filter.</p>
+      {% endif %}
+    </div>
+
+    <div class="admin-section">
+      <div class="section-title">
+        <h2>Newsletter subscribers <span class="count">({{ subscribers|length }})</span></h2>
+        <a class="admin-link" href="{{ url_for('export_records', record_type='subscribers') }}">Export CSV</a>
+      </div>
+      {% if subscribers %}
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Email</th><th>Subscribed</th><th>Actions</th></tr></thead>
+        <tbody>
+          {% for s in subscribers %}
+          <tr>
+            <td><a href="mailto:{{ s[1] }}">{{ s[1] }}</a></td>
+            <td>{{ s[2][:16].replace('T', ' ') }}</td>
+            <td><form method="post" action="{{ url_for('delete_subscriber', subscriber_id=s[0]) }}" onsubmit="return confirm('Remove this subscriber?')"><button class="action-button delete-button" type="submit">Remove</button></form></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      {% else %}
+      <p class="empty">No subscribers yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

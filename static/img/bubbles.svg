@@ -1,0 +1,16 @@
+<svg class="hero-bubbles" viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g fill="none" stroke="rgba(244,242,251,0.18)">
+    <circle cx="80" cy="120" r="6"/>
+    <circle cx="120" cy="90" r="3"/>
+    <circle cx="60" cy="500" r="8"/>
+    <circle cx="460" cy="110" r="5"/>
+    <circle cx="430" cy="70" r="3"/>
+    <circle cx="470" cy="480" r="6"/>
+    <circle cx="40" cy="330" r="4"/>
+  </g>
+  <g fill="rgba(43,230,192,0.12)">
+    <circle cx="100" cy="200" r="14"/>
+    <circle cx="440" cy="330" r="20"/>
+    <circle cx="30" cy="430" r="10"/>
+  </g>
+</svg>
